@@ -1,47 +1,62 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box } from '@mui/material'
-import { Address, BaseError } from 'viem'
-import { WaitForTransactionReceiptErrorType } from 'wagmi/actions'
-import { truncateAddress } from '../lib/address'
+import type { Address, BaseError } from "viem"
+import type { WaitForTransactionReceiptErrorType } from "wagmi/actions"
+import { truncateAddress } from "../lib/address"
 
 interface LastTransactionProps {
-  txHash: Address
-  isConfirming: boolean
-  isConfirmed: boolean
-  receiptError: WaitForTransactionReceiptErrorType | null
+	txHash: Address
+	isConfirming: boolean
+	isConfirmed: boolean
+	receiptError: WaitForTransactionReceiptErrorType | null
 }
 
-function LastTransaction({ txHash, isConfirming, isConfirmed, receiptError }: LastTransactionProps) {
-  return (
-    <TableContainer className="last-container">
-      <Typography variant="body2">Last Transaction Sent</Typography>
-      <Box>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Tx Hash</TableCell>
-              <TableCell align="right">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell scope="row">
-                {truncateAddress(txHash)}
-              </TableCell>
-              <TableCell align="right">
-                {isConfirming && <Typography variant="caption">Waiting for confirmation...</Typography>}
-                {isConfirmed && <Typography variant="caption">Transaction confirmed.</Typography>}
-                {receiptError && (
-                  <Typography color="error" fontSize={12}>
-                    {(receiptError as BaseError).shortMessage}
-                  </Typography>
-                )}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </Box>
-    </TableContainer>
-  )
+function LastTransaction({
+	txHash,
+	isConfirming,
+	isConfirmed,
+	receiptError,
+}: LastTransactionProps) {
+	function handleCopyHash() {
+		navigator?.clipboard?.writeText(txHash)
+	}
+
+	return (
+		<div className="mt-8 mb-4">
+			<span className="text-sm font-semibold">Last Transaction Sent</span>
+			<table className="table table-xs">
+				<thead>
+					<tr>
+						<th>Tx Hash</th>
+						<th align="right">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td className="tooltip tooltip-primary tooltip-bottom" data-tip="Click to copy">
+							<span
+								className="text-xs link link-hover link-primary"
+								onClick={handleCopyHash}
+							>
+								{truncateAddress(txHash)}
+							</span>
+						</td>
+						<td align="right">
+							{isConfirming && (
+								<span className="text-xs">Waiting for confirmation...</span>
+							)}
+							{isConfirmed && (
+								<span className="text-xs">Transaction confirmed.</span>
+							)}
+							{receiptError && (
+								<span className="text-error text-xs">
+									{(receiptError as BaseError).shortMessage}
+								</span>
+							)}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	)
 }
 
 export default LastTransaction
