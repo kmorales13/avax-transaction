@@ -83,8 +83,8 @@ function SendTransaction() {
 	}
 
 	return (
-		<div className="bg-neutral rounded-box max-w-md p-4 px-8">
-			<div className="flex flex-col justify-center items-center">
+		<div className="bg-neutral rounded-box w-md max-w-full p-4 px-8">
+			<div className="flex flex-col justify-center items-center max-w-full">
 				{/* Fake Tabs */}
 				<div role="tablist" className="tabs tabs-boxed tabs-xs max-w-fit">
 					<a

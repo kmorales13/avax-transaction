@@ -52,7 +52,7 @@ function AmountInput({
 	}
 
 	return (
-		<label className="form-control focus:outline-none">
+		<label className="form-control w-full focus:outline-none">
 			<div className="label">
 				<span className="label-text">Amount</span>
 				<span className="label-text-alt">
@@ -68,10 +68,10 @@ function AmountInput({
 				</span>
 			</div>
 
-			<label className="input input-bordered flex items-center gap-2 px-0">
+			<label className="input input-bordered flex items-center gap-2 px-0 max-w-full">
 				{selectComponent}
 				<input
-					className={`grow focus:outline-none ${error && "input-error"}`}
+					className={`grow min-w-0 focus:outline-none ${error && "input-error"}`}
 					name="amount"
 					placeholder="0.0"
 					value={amount}
